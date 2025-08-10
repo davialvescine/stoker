@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Stoker</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>stoker</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	
+	<!-- ========= PERMISSÕES STOKER ========= -->
+	
+	<!-- Permissões para Camera (QR Code Scanner e Fotos) -->
+	<key>NSCameraUsageDescription</key>
+	<string>O Stoker precisa acessar a câmera para escanear códigos QR dos equipamentos e tirar fotos dos itens</string>
+	
+	<!-- Permissões para Galeria (Image Picker) -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>O Stoker precisa acessar a galeria para adicionar fotos dos equipamentos e acessórios</string>
+	
+	<!-- Permissões para adicionar fotos à galeria -->
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>O Stoker pode salvar fotos dos equipamentos na galeria para backup</string>
+	
+	<!-- Permissões para Rede Local (Hot Reload e desenvolvimento) -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>O Stoker precisa acessar a rede local para sincronizar dados e funcionalidades de desenvolvimento</string>
+
+	<key>NSLocalNetworkUsageDescription</key>
+<string>Esta permissão é necessária para habilitar ferramentas de desenvolvimento, como o Hot Reload, via Wi-Fi.</string>
+	
+	<!-- Permissões para documentos (PDF, invoices) -->
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>O Stoker precisa acessar documentos para anexar notas fiscais e gerar relatórios</string>
+	
+		<key>NSPhotoLibraryUsageDescription</key>
+	<string>Este aplicativo precisa de acesso à sua galeria para selecionar fotos dos itens.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Este aplicativo precisa de acesso à sua câmera para tirar fotos dos itens.</string>
+
+	<!-- Permissões para microfone (se usar funcionalidades de áudio no futuro) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>O Stoker pode precisar do microfone para funcionalidades de áudio em equipamentos</string>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+<string>Este aplicativo precisa de acesso à sua galeria para selecionar fotos dos itens.</string>
+<key>NSCameraUsageDescription</key>
+<string>Este aplicativo precisa de acesso à sua câmera para tirar fotos dos itens.</string>
+	
+	<!-- Configurações de segurança de rede -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<!-- Permite conexões com Supabase -->
+			<key>supabase.co</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<!-- Permite localhost para desenvolvimento -->
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+			</dict>
+		</dict>
+	</dict>
+	
+	<!-- Bonjour Services para descoberta de rede local -->
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+		<string>_dartVmService._tcp</string>
+	</array>
+	
+	<!-- Configurações de arquivos suportados -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>PDF Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.adobe.pdf</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Image</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.image</string>
+				<string>public.jpeg</string>
+				<string>public.png</string>
+			</array>
+		</dict>
+	</array>
+	
+	<!-- Configurações de privacidade para Face ID/Touch ID (se implementar autenticação biométrica) -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>O Stoker pode usar Face ID para autenticação segura no acesso ao sistema</string>
+	
+	<!-- Configurações para notificações locais -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>background-processing</string>
+		<string>background-fetch</string>
+	</array>
+	
+	<!-- Configurações para compartilhamento -->
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	
+	<!-- Suporte a arquivos em nuvem -->
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	
+	<!-- Configuração para prevenir backup automático de dados sensíveis -->
+	<key>com.apple.developer.icloud-container-environment</key>
+	<string>Production</string>
+</dict>
+</plist>
