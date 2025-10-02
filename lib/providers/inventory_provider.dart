@@ -217,6 +217,15 @@ class InventoryProvider extends BaseProvider<Item> {
     return internalItems.where((item) => item.mainItemId == mainItemId).toList();
   }
 
+  List<Item> getAvailableAccessories(String mainItemId) {
+    return internalItems
+        .where((item) =>
+          item.mainItemId == mainItemId &&
+          item.status == 'Disponível'
+        )
+        .toList();
+  }
+
   Future<bool> deleteItem(String itemId) async {
     try {
       final item = getItemById(itemId);

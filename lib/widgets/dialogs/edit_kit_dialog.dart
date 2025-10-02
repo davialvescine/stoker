@@ -4,22 +4,32 @@ import '../../core/constants/colors.dart';
 import '../../core/utils/responsive_helper.dart';
 import '../../core/utils/validators.dart';
 import '../../models/item.dart';
+import '../../models/kit.dart';
 import '../../providers/inventory_provider.dart';
 import '../../providers/kit_provider.dart';
 import '../common/custom_snackbar.dart';
 
-class AddKitDialog extends StatefulWidget {
-  const AddKitDialog({super.key});
+class EditKitDialog extends StatefulWidget {
+  final Kit kit;
+
+  const EditKitDialog({super.key, required this.kit});
 
   @override
-  State<AddKitDialog> createState() => _AddKitDialogState();
+  State<EditKitDialog> createState() => _EditKitDialogState();
 }
 
-class _AddKitDialogState extends State<AddKitDialog> {
+class _EditKitDialogState extends State<EditKitDialog> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final Set<Item> _selectedItems = {};
+  late final TextEditingController _nameController;
+  late final Set<Item> _selectedItems;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.kit.name);
+    _selectedItems = Set<Item>.from(widget.kit.items);
+  }
 
   @override
   void dispose() {
@@ -27,7 +37,7 @@ class _AddKitDialogState extends State<AddKitDialog> {
     super.dispose();
   }
 
-  Future<void> _createKit() async {
+  Future<void> _updateKit() async {
     if (!_formKey.currentState!.validate() || _selectedItems.isEmpty) {
       CustomSnackBar.show(
         context,
@@ -43,7 +53,8 @@ class _AddKitDialogState extends State<AddKitDialog> {
     final kitProvider = context.read<KitProvider>();
     final inventoryProvider = context.read<InventoryProvider>();
 
-    final success = await kitProvider.createKit(
+    final success = await kitProvider.updateKit(
+      widget.kit.id,
       _nameController.text.trim(),
       itemIds,
     );
@@ -51,14 +62,14 @@ class _AddKitDialogState extends State<AddKitDialog> {
     if (!mounted) return;
 
     if (success) {
-      CustomSnackBar.show(context, message: 'Kit criado com sucesso!');
+      CustomSnackBar.show(context, message: 'Kit atualizado com sucesso!');
       await kitProvider.fetch(inventoryProvider.items);
       if (!mounted) return;
       Navigator.of(context).pop();
     } else {
       CustomSnackBar.show(
         context,
-        message: 'Falha ao criar o kit.',
+        message: 'Falha ao atualizar o kit.',
         isError: true,
       );
       setState(() => _isLoading = false);
@@ -67,13 +78,13 @@ class _AddKitDialogState extends State<AddKitDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final availableItems = context.watch<InventoryProvider>().items; // ✅ Todos os itens, não só disponíveis
+    final allItems = context.watch<InventoryProvider>().items;
 
     return AlertDialog(
       insetPadding: ResponsiveHelper.isLargeScreen(context)
           ? const EdgeInsets.symmetric(horizontal: 200, vertical: 100)
           : const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
-      title: const Text('Criar Novo Kit'),
+      title: const Text('Editar Kit'),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 500, maxHeight: 600),
         child: SizedBox(
@@ -98,11 +109,9 @@ class _AddKitDialogState extends State<AddKitDialog> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Expanded(
-                        child: Text(
-                          'Selecione os itens:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                      const Text(
+                        'Selecione os itens para o kit:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       if (_selectedItems.isNotEmpty)
                         Container(
@@ -115,7 +124,7 @@ class _AddKitDialogState extends State<AddKitDialog> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            '${_selectedItems.length}',
+                            '${_selectedItems.length} selecionado${_selectedItems.length > 1 ? 's' : ''}',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onPrimaryContainer,
                               fontSize: 12,
@@ -128,7 +137,7 @@ class _AddKitDialogState extends State<AddKitDialog> {
                   const SizedBox(height: 8),
                   SizedBox(
                     height: 300,
-                    child: availableItems.isEmpty
+                    child: allItems.isEmpty
                         ? const Center(
                             child: Text(
                               'Nenhum item disponível.',
@@ -137,20 +146,20 @@ class _AddKitDialogState extends State<AddKitDialog> {
                           )
                         : ListView.builder(
                             shrinkWrap: true,
-                            itemCount: availableItems.length,
+                            itemCount: allItems.length,
                             itemBuilder: (context, index) {
-                              final item = availableItems[index];
+                              final item = allItems[index];
                               return CheckboxListTile(
                                 title: Text(item.name),
                                 subtitle: Text('${item.category} • ${item.status}'),
                                 value: _selectedItems.contains(item),
                                 secondary: Icon(
                                   item.status == 'Disponível'
-                                    ? Icons.check_circle
-                                    : Icons.info,
+                                      ? Icons.check_circle
+                                      : Icons.info,
                                   color: item.status == 'Disponível'
-                                    ? Colors.green
-                                    : Colors.orange,
+                                      ? Colors.green
+                                      : Colors.orange,
                                 ),
                                 onChanged: (isSelected) {
                                   setState(() {
@@ -177,7 +186,7 @@ class _AddKitDialogState extends State<AddKitDialog> {
           child: const Text('Cancelar'),
         ),
         ElevatedButton(
-          onPressed: _isLoading ? null : _createKit,
+          onPressed: _isLoading ? null : _updateKit,
           child: _isLoading
               ? const SizedBox(
                   width: 20,
@@ -187,7 +196,7 @@ class _AddKitDialogState extends State<AddKitDialog> {
                     color: Colors.white,
                   ),
                 )
-              : const Text('Criar Kit'),
+              : const Text('Salvar'),
         ),
       ],
     );

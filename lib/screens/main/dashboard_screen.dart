@@ -16,6 +16,7 @@ import '../../widgets/dialogs/batch_print_dialog.dart';
 import '../../widgets/dialogs/checkout_dialog.dart';
 import '../../widgets/dialogs/checkin_dialog.dart';
 import '../scanner/qr_scanner_screen.dart';
+import '../scanner/quick_movement_scanner.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -123,7 +124,43 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        if (!kIsWeb || !ResponsiveHelper.isMobile(context))
+                        if (!kIsWeb || !ResponsiveHelper.isMobile(context)) ...[
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CustomButton(
+                                  text: 'QR Check-Out',
+                                  icon: Icons.qr_code_scanner,
+                                  backgroundColor: Colors.orange,
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const QuickMovementScanner(
+                                        movementType: MovementType.checkout,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: CustomButton(
+                                  text: 'QR Check-In',
+                                  icon: Icons.qr_code_scanner,
+                                  backgroundColor: Colors.green,
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const QuickMovementScanner(
+                                        movementType: MovementType.checkin,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
                           CustomButton(
                             text: 'Escanear QR Code',
                             icon: Icons.qr_code_scanner,
@@ -135,6 +172,7 @@ class DashboardScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                        ],
                         const SizedBox(height: 16),
                         CustomButton(
                           text: 'Imprimir Etiquetas em Lote',

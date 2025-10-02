@@ -8,6 +8,7 @@ import '../../providers/kit_provider.dart';
 import '../../navigation/navigation_item.dart';
 import 'dashboard_screen.dart';
 import 'inventory_screen.dart';
+import 'kits_screen.dart';
 import 'borrowers_screen.dart';
 import 'profile_screen.dart';
 import './report_screen.dart';
@@ -26,6 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const DashboardScreen(),
     const InventoryScreen(),
+    const KitsScreen(),
     const StatusScreen(),
     const BorrowersScreen(),
     const ReportScreen(),
@@ -41,8 +43,12 @@ class _MainScreenState extends State<MainScreen> {
     NavigationItem(
       icon: Icons.inventory_2_outlined,
       activeIcon: Icons.inventory_2,
-      label: 'Inventário', // ALTERADO: Corrigido o nome do label no drawer
-    
+      label: 'Inventário',
+    ),
+    NavigationItem(
+      icon: Icons.inventory_outlined,
+      activeIcon: Icons.inventory,
+      label: 'Kits',
     ),
     NavigationItem(
       icon: Icons.swap_horiz_outlined,

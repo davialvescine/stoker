@@ -8,6 +8,7 @@ import '../../providers/inventory_provider.dart';
 import '../../widgets/dialogs/modern_add_item_dialog.dart';
 import '../../widgets/dialogs/modern_borrow_dialog.dart';
 import '../../widgets/dialogs/modern_return_dialog.dart';
+import '../../widgets/dialogs/add_kit_dialog.dart';
 import '../item/item_details_screen.dart';
 import '../item/batch_movement_screen.dart';
 
@@ -175,6 +176,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   movementType: 'Devolução',
                 ),
               ),
+            ),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.inventory_2),
+            label: 'Criar Kit',
+            onTap: () => showDialog(
+              context: context,
+              builder: (_) => const AddKitDialog(),
             ),
           ),
           SpeedDialChild(

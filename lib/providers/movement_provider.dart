@@ -21,7 +21,7 @@ class MovementProvider extends BaseProvider<Movement> {
   Future<bool> addMovement(Movement movement, InventoryProvider inventoryProvider) async {
     try {
       List<String> allItemIds = [movement.itemId];
-      final accessories = inventoryProvider.getAccessories(movement.itemId);
+      final accessories = inventoryProvider.getAvailableAccessories(movement.itemId); // ✅ Usa novo método
       allItemIds.addAll(accessories.map((e) => e.id));
 
       final movements = allItemIds
@@ -69,7 +69,7 @@ class MovementProvider extends BaseProvider<Movement> {
       List<String> allItemIds = [];
       for (var itemId in itemIds) {
         allItemIds.add(itemId);
-        final accessories = inventoryProvider.getAccessories(itemId);
+        final accessories = inventoryProvider.getAvailableAccessories(itemId); // ✅ Usa novo método
         allItemIds.addAll(accessories.map((e) => e.id));
       }
 
