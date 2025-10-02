@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/borrower_provider.dart';
@@ -23,7 +23,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Relatórios'),
+       // title: const Text('Relatórios'),
       ),
       body: Column(
         children: [
@@ -91,4 +91,4 @@ class _ReportsScreenState extends State<ReportsScreen> {
       ),
     );
   }
-}
+}*/

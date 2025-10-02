@@ -14,7 +14,7 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Relatórios'),
+       // title: const Text('Relatórios'),
       ),
       body: ListView(
         children: [

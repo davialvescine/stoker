@@ -58,7 +58,7 @@ class DashboardScreen extends StatelessWidget {
     final kits = context.watch<KitProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
+      appBar: AppBar(),
       body:
           (inventory.isLoading ||
                   borrowers.isLoading ||

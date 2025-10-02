@@ -41,9 +41,9 @@ class _MainScreenState extends State<MainScreen> {
     NavigationItem(
       icon: Icons.inventory_2_outlined,
       activeIcon: Icons.inventory_2,
-      label: 'Inventário',
+      label: 'Inventário', // ALTERADO: Corrigido o nome do label no drawer
+    
     ),
-    // Tela de Status
     NavigationItem(
       icon: Icons.swap_horiz_outlined,
       activeIcon: Icons.swap_horiz,
@@ -87,51 +87,83 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  // NOVO: Widget para construir o Drawer
+  Widget _buildDrawer() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            child: const Text(
+              'Menu',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          for (int i = 0; i < _navigationItems.length; i++)
+            ListTile(
+              leading: Icon(
+                _currentIndex == i
+                    ? _navigationItems[i].activeIcon
+                    : _navigationItems[i].icon,
+              ),
+              title: Text(_navigationItems[i].label),
+              selected: _currentIndex == i,
+              onTap: () {
+                setState(() => _currentIndex = i);
+                Navigator.pop(context); // Fecha o drawer após a seleção
+              },
+            ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLargeScreen = ResponsiveHelper.isLargeScreen(context);
 
-    return Scaffold(
-      body: isLargeScreen
-          ? Row(
-              children: [
-                // Navegação lateral para telas grandes
-                NavigationRail(
-                  extended: ResponsiveHelper.isDesktop(context),
-                  minExtendedWidth: 200,
-                  destinations: _navigationItems
-                      .map(
-                        (item) => NavigationRailDestination(
-                          icon: Icon(item.icon),
-                          selectedIcon: Icon(item.activeIcon),
-                          label: Text(item.label),
-                        ),
-                      )
-                      .toList(),
-                  selectedIndex: _currentIndex,
-                  onDestinationSelected: (index) =>
-                      setState(() => _currentIndex = index),
-                ),
-                const VerticalDivider(thickness: 1, width: 1),
-                Expanded(child: _screens[_currentIndex]),
-              ],
-            )
-          : _screens[_currentIndex],
-      bottomNavigationBar: isLargeScreen
-          ? null
-          : BottomNavigationBar(
-              currentIndex: _currentIndex,
-              onTap: (index) => setState(() => _currentIndex = index),
-              items: _navigationItems
+    // Lógica para telas grandes permanece a mesma
+    if (isLargeScreen) {
+      return Scaffold(
+        body: Row(
+          children: [
+            NavigationRail(
+              extended: ResponsiveHelper.isDesktop(context),
+              minExtendedWidth: 200,
+              destinations: _navigationItems
                   .map(
-                    (item) => BottomNavigationBarItem(
+                    (item) => NavigationRailDestination(
                       icon: Icon(item.icon),
-                      activeIcon: Icon(item.activeIcon),
-                      label: item.label,
+                      selectedIcon: Icon(item.activeIcon),
+                      label: Text(item.label),
                     ),
                   )
                   .toList(),
+              selectedIndex: _currentIndex,
+              onDestinationSelected: (index) =>
+                  setState(() => _currentIndex = index),
             ),
+            const VerticalDivider(thickness: 1, width: 1),
+            Expanded(child: _screens[_currentIndex]),
+          ],
+        ),
+      );
+    }
+
+    // ALTERADO: Lógica para telas pequenas agora usa AppBar e Drawer
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_navigationItems[_currentIndex].label), // Mostra o título da tela atual
+      ),
+      drawer: _buildDrawer(), // Adiciona o menu lateral
+      body: _screens[_currentIndex],
+      // REMOVIDO: O BottomNavigationBar não é mais necessário
     );
   }
 }

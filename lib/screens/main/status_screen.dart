@@ -46,7 +46,7 @@ class _StatusScreenState extends State<StatusScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Status dos Itens'),
+       // title: const Text('Status dos Itens'),
         actions: [
           IconButton(
             icon: Icon(_isGridView ? Icons.list : Icons.grid_on),

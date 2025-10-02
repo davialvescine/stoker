@@ -293,7 +293,7 @@ class _BatchPrintDialogState extends State<BatchPrintDialog> {
                           'Itens Selecionados (${_selectedItemIds.length})',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                         TextButton(

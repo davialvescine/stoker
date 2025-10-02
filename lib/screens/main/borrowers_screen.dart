@@ -17,7 +17,9 @@ class BorrowersScreen extends StatelessWidget {
     final provider = context.watch<BorrowerProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mutuários')),
+      appBar: AppBar(
+       // title: const Text('Mutuários')
+        ),
       body: RefreshIndicator(
         onRefresh: () => provider.fetch(),
         child: provider.isLoading && provider.items.isEmpty

@@ -42,8 +42,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
     final groupedItems = inventoryProvider.groupedItems;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Inventário'),
+      appBar: AppBar( // inventario
+        
         actions: [
           IconButton(
             icon: Icon(_isGridView ? Icons.list : Icons.grid_on),
